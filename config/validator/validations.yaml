@@ -1,0 +1,30 @@
+App\Entity\Location:
+  properties:
+    latitude:
+      - Range:
+          min: -90
+          max: 90
+          groups: ['create']
+      - Range:
+          min: -90
+          max: 90
+          groups: ['edit']
+    longitude:
+      - Range:
+          min: -180
+          max: 180
+          groups: ['create']
+      - Range:
+          min: -180
+          max: 180
+          groups: ['edit']
+    city:
+      - NotBlank:
+          groups: ['create']
+      - NotBlank:
+          groups: ['edit']
+    country:
+      - NotBlank:
+          groups: ['create','edit']
+
+
