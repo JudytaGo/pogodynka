@@ -27,7 +27,7 @@
                 <td>
                     <a href="{{ path('app_location_show', {'id': location.id}) }}">show</a>
                     <a href="{{ path('app_location_edit', {'id': location.id}) }}">edit</a>
-                </td>
+                 </td>
             </tr>
         {% else %}
             <tr>
@@ -36,6 +36,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_location_new') }}">Create new</a>
+    {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('app_location_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
