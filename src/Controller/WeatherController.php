@@ -1,6 +1,7 @@
 <?php // src/Controller/WeatherController.php
 namespace App\Controller;
 
+use App\Service\WeatherUtil;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,21 +11,25 @@ use App\Repository\MeasurementRepository;
 
 class WeatherController extends AbstractController
 {
-    public function cityAction(string $country,string $city,LocationRepository $locationRepository, MeasurementRepository $measurementRepository): Response
-    {   
-        $location = $locationRepository->findOneBySomeField($country,$city);
-        if($location != NULL){
-            $measurements = $measurementRepository->findByLocation($location);
-            return $this->render('weather/city.html.twig', [
-            'location' => $location,
-            'measurements' => $measurements,]);
-        }else{
-            return $this->render('weather/homepage.html.twig');
-        }
+    #[Route('/weather', name: 'app_weather')]
+    public function cityAndCountryAction(string $country, string $city, WeatherUtil $util): Response
+    {
+        $measurements = $util->getWeatherForCountryAndCity($country, $city);
 
+        return $this->render('weather/countrycity.html.twig', [
+            'country' => $country,
+            'city' => $city,
+            'measurements' => $measurements,
+        ]);
     }
-    public function homePage(): Response
-    {   
-         return $this->render('weather/homepage.html.twig');
+
+    public function cityAction(Location $city,WeatherUtil $util): Response
+    {
+        $measurements = $util->getWeatherForLocation($city);
+
+        return $this->render('weather/city.html.twig', [
+            'location' => $city,
+            'measurements' => $measurements,
+        ]);
     }
 }

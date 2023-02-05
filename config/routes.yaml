@@ -1,12 +1,15 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
-weather_in_city:
+
+weather_in_country_and_city:
   path: /weather/{country}/{city}
+  controller: App\Controller\WeatherController:cityAndCountryAction
+weather_in_city:
+  path: /weather/{city}
   controller: App\Controller\WeatherController:cityAction
-weather:
-  path: /weather
-  controller: App\Controller\WeatherController:homePage
+  requirements:
+    city: \d+
 
 app_logout:
   path: /logout
